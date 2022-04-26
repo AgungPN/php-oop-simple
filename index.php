@@ -1,4 +1,5 @@
 <?php require_once "app/init.php" ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,22 +108,22 @@
     <!-- pagination -->
     <div class="btn-group" id="btn-group">
       <?php $i = 1 ?>
-      <a href="?page=<?php 
-      if (isset($_GET['page'])) {
-        if ($_GET['page']>$i) echo $_GET['page']-1;
-        else echo $i;
-      }
-      ?>" class="btn">Previous</a>
+      <a href="?page=<?php
+                      if (isset($_GET['page'])) {
+                        if ($_GET['page'] > $i) echo $_GET['page'] - 1;
+                        else echo $i;
+                      }
+                      ?>" class="btn">Previous</a>
       <?php while ($i <= $lenPage) : ?>
         <a href="?page=<?= $i; ?>" class="btn page <?= $i == $_GET['page'] ? 'btn-active' : ''; ?>"><?= $i; ?></a>
         <?php $i++ ?>
       <?php endwhile ?>
-      <a href="?page=<?php 
-      if (isset($_GET['page'])) {
-        if ($_GET['page'] >= $lenPage) echo $lenPage;
-        else echo $_GET['page']+1;
-      }
-      ?>" class="btn">Next</a>
+      <a href="?page=<?php
+                      if (isset($_GET['page'])) {
+                        if ($_GET['page'] >= $lenPage) echo $lenPage;
+                        else echo $_GET['page'] + 1;
+                      }
+                      ?>" class="btn">Next</a>
     </div>
   </div>
 </body>

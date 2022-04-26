@@ -6,7 +6,7 @@ use app\traits\staticTrait as TraitsStaticTrait;
 
 class DB {
   use TraitsStaticTrait;
-  private $host = "localhost", $username = "admin", $password = "", $database = "mahasiswa";
+  private $host = "localhost", $username = "root", $password = "", $database = "mahasiswa";
   private ?string $table, $where = '';
   private array $query = [];
   public $mysql, $affected_rows;
@@ -40,11 +40,10 @@ class DB {
   }
 
   public function _where($field, $operator, $value) {
-    if (is_string($value)) {
+    if (is_string($value)) 
       $val = (string)"$value";
-    } else {
+     else 
       $val = $value;
-    }
     $where = "WHERE {$field} {$operator} ";
     $where .= is_string($value) ? "'$value'" : $value;
     $this->where = $where;
@@ -67,9 +66,8 @@ class DB {
     $rows = [];
     $sql = "SELECT * FROM {$this->table} {$this->where} {$limit} {$offset}";
     $query = $this->query($sql);
-    while ($row = $query->fetch_object()) {
+    while ($row = $query->fetch_object()) 
       $rows[] = $row;
-    }
     return (object)$rows;
   }
 
@@ -85,9 +83,8 @@ class DB {
     $val = '';
     for ($i = 1; $i <= $len; $i++) {
       $val .= '?';
-      if ($i != $len) {
+      if ($i != $len) 
         $val .= ',';
-      }
     }
     $sql = "INSERT INTO {$this->table} ({$field}) VALUES ({$val})";
     try {
@@ -107,9 +104,8 @@ class DB {
     foreach ($field as $key => $value) {
       $val[$i - 1] = $value;
       $set .= "$key = ?";
-      if ($len != $i++) {
+      if ($len != $i++) 
         $set .= ',';
-      }
     }
     $val[$len] = $id;
     $where = is_null($id) ? '' : 'WHERE id = ?';

@@ -2,13 +2,11 @@
 
 namespace app\lib;
 
-
 class Storage {
   private $location;
   public static function putFileAs(string $location, ?string $nameFile = null, int $maxSize = 2000000): ?string {
-    if(trim($_FILES['image']['name']) == ""){
+    if (trim($_FILES['image']['name']) == "")
       return null;
-    }
     $name = $_FILES['image']['name'];
     $error = $_FILES['image']['error'];
     $size = $_FILES['image']['size'];
@@ -26,11 +24,10 @@ class Storage {
       throw new \Exception("Image not valid");
     }
 
-    if (is_null($nameFile)) {
+    if (is_null($nameFile))
       $nameFile = microtime() . '_' . uniqid() . '.' . $getImageExtension;
-    } else {
+    else
       $nameFile = $nameFile . "." . $getImageExtension;
-    }
     move_uploaded_file($tmp, path($location) . "/$nameFile");
     return $nameFile;
   }

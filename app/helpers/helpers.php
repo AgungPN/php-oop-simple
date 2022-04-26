@@ -1,5 +1,5 @@
 <?php
-define("BASE_URL",'http://localhost/latihan2/assets/');
+define("BASE_URL",'http://localhost/php-oop-simple/assets/');
 function asset(?string $path = null): string {
   $asset = is_null($path) ? BASE_URL : BASE_URL . $path;
   return $asset;

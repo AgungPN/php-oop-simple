@@ -8,7 +8,7 @@ $users = Users::index();
 $lenPage = $GLOBALS['lenPage'];
 
 if (isset($_POST['add'])) {
-  Users::create((object)$_POST);
+  Users::create($_POST);
 }
 
 if (isset($_POST['update'])) {
