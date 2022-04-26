@@ -12,4 +12,5 @@ ini merupakan salah satu contoh program saya yang menggunakan php native untuk m
 ### Untuk memulai menjalankan program ikuti langkah-langkah berikut:
 1. clone repo/download repo.
 1. buat database dengan nama `mahasiswa` dan import sql dari folder **database**
+1. ubah link `BASE_URL` di helpers.php sesuai dengan link masing-masing
 1. jalankan program 
