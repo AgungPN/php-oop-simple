@@ -12,6 +12,11 @@ use Exception;
 
 class Users extends DB {
   use staticTrait;
+  
+  /**
+   * view data crud
+   * @return ?object data crud
+   */
   public function _index() {
     $pageActive = 1;
     if (isset($_GET['page'])) {
@@ -35,6 +40,10 @@ class Users extends DB {
     return $this->table('users')->limit($limit)->offset($offset)->getList();
   }
 
+  /** 
+   * create CRUD
+   * @param array $request to input form data
+   */
   public function _create($request): void {
     try {
       Validate::validate($request + $_FILES, [
@@ -55,6 +64,10 @@ class Users extends DB {
     FlashMessage::setFlash("success", "Success create data");
   }
 
+  /** 
+   * update crud
+   * @param array $request to input form data
+   */
   public function _edit($request): void {
     try {
       Validate::validate($request + $_FILES, [
@@ -87,6 +100,10 @@ class Users extends DB {
     }
   }
 
+  /**
+   * delete crud
+   * @param int $id id to delete
+   */
   public function _delete(int $id): void {
     $user = $this->table('users')->where('id', '=', $id)->getOne();
     if (!is_null($user)) {
@@ -101,6 +118,11 @@ class Users extends DB {
     }
   }
 
+  /** 
+   * search data from CRUD
+   * @param string $request string to search
+   * @return ?object return object data or null
+    */
   public function _search($request): ?object {
     $request = "%$request%";
     $result = $this->table('users')->where('name', 'LIKE', $request)->getList();

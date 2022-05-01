@@ -11,17 +11,32 @@ class DB {
   private array $query = [];
   public $mysql, $affected_rows;
 
+  /**
+   * connect to database
+   * @construct
+   */
   public function __construct() {
     // show error sql
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $this->mysql = new \mysqli($this->host, $this->username, $this->password, $this->database);
   }
 
+  /**
+   * setter table
+   * @param string $table name tabel
+   * @return object this object
+   */
   public function _table(string $table) {
     $this->table = $table;
     return $this;
   }
 
+  /**
+   * to run query
+   * @param string $sql syntax sql
+   * @param ?string $bind bind prepare
+   * @param array ...$args spread operator argument
+   */
   public function _query($sql, $bind = null, ...$args) {
     $stmp = $this->mysql->prepare($sql);
     if (!is_null($bind) && !is_null($args)) {
@@ -34,11 +49,21 @@ class DB {
     return $result;
   }
 
+  /**
+   * count record data database
+   * @return ?int count recourd
+   */
   public function _num_rows(): ?int {
     $sql = "SELECT * FROM {$this->table} {$this->where}";
     return $this->query($sql)->num_rows;
   }
 
+  /**
+   * where for syntax sql
+   * @param string $field field where
+   * @param string $operator operator 
+   * @param mixed $value value
+   */
   public function _where($field, $operator, $value) {
     if (is_string($value)) 
       $val = (string)"$value";
@@ -50,16 +75,25 @@ class DB {
     return $this;
   }
 
+  /**
+   * limit select data from database
+   * @param int $limit lenght limit
+   */
   public function _limit(int $limit) {
     $this->query['limit']  = "LIMIT $limit";
     return $this;
   }
 
+  /**
+   * offset for start select data
+   * @param int $offset start from
+   */
   public function _offset(int $offset) {
     $this->query['offset'] = "OFFSET $offset";
     return $this;
   }
 
+  /** get list data */
   public function _getList(): ?object {
     $limit = isset($this->query['limit']) ? $this->query['limit'] : '';
     $offset = isset($this->query['offset']) ? $this->query['offset'] : '';
@@ -71,6 +105,7 @@ class DB {
     return (object)$rows;
   }
 
+  /** get one data */
   public function _getOne(): ?object {
 
     $sql = "SELECT * FROM {$this->table} {$this->where}";
@@ -78,6 +113,12 @@ class DB {
     return $result->fetch_object();
   }
 
+  /**
+   * insert into database
+   * @param string $field fields
+   * @param ?string $bind bind
+   * @param mixed ...$args arguments
+   */
   public function _insert($field, ?string $bind = null, ...$args) {
     $len = strlen($bind);
     $val = '';
@@ -96,6 +137,12 @@ class DB {
     return $this->affected_rows;
   }
 
+  /**
+   * update data database
+   * @param array $field data
+   * @param ?string $bind bind
+   * @param ?int $id id
+   */
   public function _update($field, ?string $bind = null, ?int $id = null) {
     $set = "";
     $val = [];
@@ -119,6 +166,10 @@ class DB {
     return $this->affected_rows;
   }
 
+  /**
+   * delete from database
+   * @param int $id id
+   */
   public function _destroy(int $id) {
     $sql = "DELETE FROM {$this->table} WHERE id = ?";
     try {
